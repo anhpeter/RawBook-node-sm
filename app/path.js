@@ -8,6 +8,7 @@ module.exports = {
     get app() { return `${this.root}/app` },
     get config() { return `${this.app}/config` },
     get helper() { return `${this.app}/helper` },
+    get libs() { return `${this.app}/libs` },
     get models() { return `${this.app}/models` },
     get schemas() { return `${this.app}/schemas` },
     get validates() { return `${this.app}/validates` },
