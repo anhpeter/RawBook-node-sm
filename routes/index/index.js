@@ -13,16 +13,20 @@ router.get('/', async function (req, res, next) {
 
 // SOLVE URL
 router.post('/', async function (req, res, next) {
-    let data = {
-        url: req.body.url,
-        category: 'truyen-ngan-tan-van-tap-van',
+    let fn = (jsonData = null) => {
+        res.render(`${viewFolder}/index`, { title: 'Express', jsonData});
     }
-    RawData.run(data, (err, data) => {
-        if (err) res.send(err)
-        else {
-            res.render(`${viewFolder}/index`, { title: 'Express', jsonData: data });
+    if (req.body.url) {
+        let categoryLink = req.body.url.match(/(?<=tiki\.vn\/)[\w\-]+(?=\/)/);
+        let data = {
+            url: req.body.url,
+            category: categoryLink[0].trim(),
         }
-    });
+        RawData.run(data, (err, data) => {
+            if (err) res.send(err)
+            else fn(data);
+        });
+    } else fn(null);
 });
 
 module.exports = router;
