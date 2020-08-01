@@ -3,19 +3,26 @@ var router = express.Router();
 
 let controller = 'index';
 let viewFolder = `index/pages/${controller}`;
-const firebase = require(`${__path.libs}/firebase`);
+const RawData = require(`${__path.libs}/raw-data`);
+const Firebase = require(`${__path.libs}/firebase`);
 
 // INDEX
 router.get('/', async function (req, res, next) {
-    //let data = await userModel.model.find({});
-    //console.log(data);
     res.render(`${viewFolder}/index`, { title: 'Express' });
 });
 
 // SOLVE URL
 router.post('/', async function (req, res, next) {
-    console.log(firebase.test());
-    res.render(`${viewFolder}/index`, { title: 'Express' });
+    let data = {
+        url: req.body.url,
+        category: 'truyen-ngan-tan-van-tap-van',
+    }
+    RawData.run(data, (err, data) => {
+        if (err) res.send(err)
+        else {
+            res.render(`${viewFolder}/index`, { title: 'Express', jsonData: data });
+        }
+    });
 });
 
 module.exports = router;

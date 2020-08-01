@@ -1,3 +1,5 @@
+const Helper = require(`${__path.helper}/helper`);
+
 var firebase = require('firebase/app');
 require('firebase/storage');
 require('firebase/database');
@@ -11,15 +13,24 @@ var app = firebase.initializeApp({
     appId: "1:156105229112:web:3b064e0cc6d0b34eb977cd"
 });
 module.exports = {
-    test: function () {
+    pushDefaultData: function (data, doneCallback) {
+        if (data) {
+            this.deleteList(() => {
+                this.ref.push(data).then(() => {
+                    if (Helper.isFn(doneCallback)) doneCallback();
+                })
+            })
+        }
+    },
+
+    deleteList: function (doneCallback) {
+        this.ref.remove().then(() => {
+            if (Helper.isFn(doneCallback)) doneCallback();
+        })
+    },
+
+    get ref() {
         let database = app.database();
-        let ref = database.ref('books');
-        ref.once('value', function (snapshot) {
-            snapshot.forEach(function (childSnapshot) {
-                var childKey = childSnapshot.key;
-                var childData = childSnapshot.val();
-                console.log(childKey, childData);
-            });
-        });
+        return ref = database.ref('raw-books');
     }
 }

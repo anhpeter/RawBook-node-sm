@@ -6,6 +6,7 @@
         "start": "nodemon ./bin/www"
     },
     "dependencies": {
+        "cheerio": "^1.0.0-rc.3",
         "cookie-parser": "~1.4.4",
         "debug": "~2.6.9",
         "ejs": "~2.6.1",
@@ -15,6 +16,7 @@
         "http-errors": "~1.6.3",
         "mongoose": "^5.9.17",
         "morgan": "~1.9.1",
+        "request": "^2.88.2",
         "string-format": "^2.0.0"
     }
 }
