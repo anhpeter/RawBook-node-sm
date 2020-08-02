@@ -14,19 +14,6 @@ global.__path = require('./app/path');
 global.__conf = require(`${__path.config}/conf`);
 global.__helper = require(`${__path.helper}/helper`);
 
-// database
-//let dbConnectParams = require(`${__path.config}/database`).dbConnectParams;
-//mongoose.connect(__helper.strFormat(dbConnectParams.url, dbConnectParams.username, dbConnectParams.password, dbConnectParams.db), {
-//useNewUrlParser: true,
-//useUnifiedTopology: true
-//});
-
-//var db = mongoose.connection;
-//db.on('error', console.error.bind(console, 'connection error:'));
-//db.once('open', function () {
-    //console.log('db connected ==||=========>>\n');
-//});
-
 // view engine setup
 app.set('views', __path.views);
 app.set('view engine', 'ejs');

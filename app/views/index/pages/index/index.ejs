@@ -1,34 +1,24 @@
 <% 
     var jsonData = jsonData || null;
+    var url = url || null;
+    var qty = qty || '';
 %>
+
 <!-- PAGE TITLE -->
 <div class="row">
-    <h3 class="col-12">Raw books</h3>
+    <h3 class="col-12"><a class="text-blue" href="/">Raw Tiki Books</a></h3>
 </div>
 
 <!-- CONTENT -->
 <div class="row">
-    <!-- URL INPUT -->
-    <div class="col-12">
-        <form method="post" action="/">
-            <div class="form-group">
-                <input type="text" class="form-control" name="url" placeholder="Type url">
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-        </form>
-    </div>
+    <!-- CONTROL -->
+    <%- include('control.ejs') %>
 
     <!-- RESULT -->
-    <div class="col-12">
-        <h4>Result</h4>
-        <div class="form-group">
-            <textarea class="form-control" name="" id="" rows="10">
-                <% if (jsonData) { %>
-                    <%= jsonData %> 
-                <% } %>
-            </textarea>
-        </div>
+    <%- include('result.ejs') %>
+    <div id="params">
+        <div data-key="url" class="d-none"><%=url%></div>
+        <div data-key="qty" class="d-none"><%=url%></div>
+        <div data-key="items-json" class="d-none"><%=jsonData%></div>
     </div>
 </div>

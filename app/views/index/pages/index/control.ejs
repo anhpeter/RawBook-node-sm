@@ -1,0 +1,33 @@
+<% 
+    var jsonData = jsonData || null;
+    var url = url || null;
+    var qty = qty || '';
+%>
+<div class="col-12">
+    <form method="post" action="/">
+        <div class="form-row">
+            <div class="form-group col-sm-8">
+                <input id="url-input" value="<%=url%>" type="text" class="form-control" name="url"
+                    placeholder="https://tiki.vn/category-url">
+            </div>
+            <div class="form-group col-sm-4">
+                <input id="qty-input" value="<%=qty%>" type="number" class="form-control" name="qty"
+                    placeholder="Quantity" min="5" max="500" step="5">
+            </div>
+            <div class="form-group col-sm-12">
+                <div class="custom-control custom-checkbox mb-2">
+                    <input type="checkbox" class="custom-control-input" id="confirmed-cb">
+                    <label class="custom-control-label" for="confirmed-cb">Auto create category if not exists</label>
+                </div>
+
+                <div class="no-wrap">
+                    <button id="raw-btn" type="submit" class="btn btn-secondary btn-sm" disabled>Raw</button>
+                    <% if (jsonData) { %>
+                    <a href="/" class="btn btn-danger btn-sm">Reset</a>
+                    <button id="save-btn" class="btn btn-secondary btn-sm">Save to database</button>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

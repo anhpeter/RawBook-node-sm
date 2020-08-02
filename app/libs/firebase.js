@@ -13,24 +13,32 @@ var app = firebase.initializeApp({
     appId: "1:156105229112:web:3b064e0cc6d0b34eb977cd"
 });
 module.exports = {
-    pushDefaultData: function (data, doneCallback) {
-        if (data) {
-            this.deleteList(() => {
-                this.ref.push(data).then(() => {
-                    if (Helper.isFn(doneCallback)) doneCallback();
+    getItem: function (params, options) {
+        this.getRef(params.collection)
+            .orderByChild(params.fieldPath)
+            .equalTo(params.value)
+            .once('value', function (snapshot) {
+                let items = [];
+                snapshot.forEach(function (childSnapshot) {
+                    let item = {
+                        key: childSnapshot.key,
+                        ...childSnapshot.val(),
+                    }
+                    items.push(item);
                 })
+                if (Helper.isFn(options.doneCallback)) options.doneCallback(null, items[0]);
+            });
+    },
+
+    saveItem: function (params, options) {
+        this.getRef(params.collection).push(params.item)
+            .then(() => {
+                if (Helper.isFn(options.doneCallback)) options.doneCallback();
             })
-        }
     },
 
-    deleteList: function (doneCallback) {
-        this.ref.remove().then(() => {
-            if (Helper.isFn(doneCallback)) doneCallback();
-        })
-    },
-
-    get ref() {
+    getRef(collection) {
         let database = app.database();
-        return ref = database.ref('raw-books');
+        return ref = database.ref(collection);
     }
 }

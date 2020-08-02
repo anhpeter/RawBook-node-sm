@@ -1,0 +1,16 @@
+:root {
+    --blue: #4F81BD;
+    --light-blue: rgb(239, 241, 243);
+}
+
+.bg-light-blue{
+    background-color: var(--light-blue);
+}
+
+.text-blue{
+    color: var(--blue);
+}
+
+.no-wrap{
+    white-space: nowrap;
+}
