@@ -13,6 +13,7 @@ let _main = {
     // ON SAVE
     onSaveBtnClick: function () {
         $(_slt.saveBtn).click(() => {
+            $(_slt.saveBtn).attr('disabled', 'disabled');
             let itemsJson = $(_slt.itemsJsonParam).text() || '';
             if (itemsJson.trim() != '') {
                 // enable progress bar
@@ -56,9 +57,9 @@ let _main = {
                     _firebase.uploadImageByBase64({ basePath: _firebase._collection, upload: { base64: item.thumb } }, {
                         doneCallback: (upload) => {
                             item.thumb = upload._url;
-                            let percent = `${((i / items.length) * 100).toFixed(2)}%`;
+                            let percent = `${(Math.round(i / items.length) * 100)}%`;
                             $(_slt.progressBar).css('width', percent);
-                            $(_slt.progressBar).text(`Saving ${percent}`);
+                            $(_slt.progressBar).text(`Files uploading ${percent}`);
                             resolve(item);
                             i++;
                         }
@@ -154,12 +155,20 @@ let _firebase = {
 
     insertMany: function (params, options) {
         if (params.items.length > 0) {
+            $(_slt.savingProgressBarContainer).removeClass('d-none');
             let promises = [];
+            let i = 0;
             for (let item of params.items) {
                 promises.push(
                     new Promise((resolve) => {
                         this.ref.push(item)
-                            .then(() => { resolve(item) });
+                            .then(() => {
+                                let percent = `${(Math.round(i / params.items.length) * 100)}%`;
+                                $(_slt.savingProgressBar).css('width', percent);
+                                $(_slt.savingProgressBar).text(`Data saving ${percent}`);
+                                i++;
+                                resolve(item);
+                            });
                     })
                 )
             }
@@ -236,8 +245,13 @@ let _helper = {
 
 let _slt = {
     message: '#message',
-    progressBar: '#progress-bar',
-    progressBarContainer: '#progress-bar-container',
+
+    // progress bar
+    progressBar: '#upload-progress-bar',
+    progressBarContainer: '#upload-progress-bar-container',
+
+    savingProgressBar: '#saving-progress-bar',
+    savingProgressBarContainer: '#saving-progress-bar-container',
 
     // buttons
     saveBtn: '#save-btn',
